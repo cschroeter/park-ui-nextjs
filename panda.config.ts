@@ -1,4 +1,7 @@
 import { defineConfig } from '@pandacss/dev'
+import { amber, black, gray, white } from '@/theme/colors'
+import { recipes, slotRecipes } from '@/theme/recipes'
+import { shadows } from '@/theme/shadows'
 
 export default defineConfig({
   // Whether to use css reset
@@ -10,11 +13,55 @@ export default defineConfig({
   // Files to exclude
   exclude: [],
 
-  // Useful for theme customization
-  theme: {
-    extend: {},
-  },
-
   // The output directory for your css system
   outdir: 'styled-system',
+
+  // The jsx framework you are using
+  jsxFramework: 'react',
+
+  // Park UI specific configuration
+  globalCss: {
+    extend: {
+      html: {
+        colorPalette: 'amber',
+      },
+    },
+  },
+  theme: {
+    extend: {
+      recipes,
+      slotRecipes,
+      semanticTokens: {
+        colors: {
+          amber,
+          gray,
+        },
+        radii: {
+          l1: { value: '{radii.xs}' },
+          l2: { value: '{radii.sm}' },
+          l3: { value: '{radii.md}' },
+        },
+        shadows,
+      },
+      tokens: {
+        colors: {
+          black,
+          white,
+        },
+      },
+    },
+  },
+  conditions: {
+    extend: {
+      light: ':root &, .light &',
+    },
+  },
+  hooks: {
+    'preset:resolved': ({ utils, preset, name }) => {
+      if (name === '@pandacss/preset-panda') {
+        return utils.omit(preset, ['theme.tokens.colors', 'theme.semanticTokens.colors'])
+      }
+      return preset
+    },
+  },
 })

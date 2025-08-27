@@ -1,5 +1,10 @@
-import { css } from '../../styled-system/css'
+import { Container } from 'styled-system/jsx'
+import { Button } from '@/components/ui'
 
 export default function Home() {
-  return <div className={css({ fontSize: '2xl', fontWeight: 'bold' })}>Hello 🐼!</div>
+  return (
+    <Container py="8">
+      <Button>Park UI</Button>
+    </Container>
+  )
 }
